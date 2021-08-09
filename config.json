@@ -1,13 +1,17 @@
 {
     "name": "Doorbell",
-    "version": "1.0.25",
+    "version": "1.0.36",
     "slug": "doorbell",
     "description": "Use a RTL-SDR device to capture the KlikAanKlikUit doorbell. Tested on the acdb-6600ac set. This add-on needs the protection mode to be off for USB access to the RTL-SDR device.",
     "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
     "startup": "application",
     "stage": "experimental",
     "boot": "auto",
-    "options": {},
-    "schema": {},
+    "options": {
+      "frequency": 433920000
+    },
+    "schema": {
+      "frequency": "int(1,)"
+    },
     "full_access": true
   }

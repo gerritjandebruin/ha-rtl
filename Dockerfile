@@ -1,5 +1,4 @@
-ARG alpineVersion=latest
-FROM alpine:${alpineVersion} as builder
+FROM homeassistant/amd64-base as builder
 
 ENV LANG C.UTF-8
 
@@ -25,8 +24,7 @@ WORKDIR /build/rtl_433/build
 RUN make DESTDIR=/build/root/ install
 RUN ls -lah /build/root
 
-ARG alpineVersion=latest
-FROM alpine:${alpineVersion}
+FROM homeassistant/amd64-base
 
 ARG rtl433GitRevision=master
 LABEL maintainer="georgedot@gmail.com" \
