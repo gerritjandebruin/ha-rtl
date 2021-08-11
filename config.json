@@ -13,8 +13,8 @@
       "mqtt:need"
     ],
     "options": {
-      "frequency": 433920000,
-      "device": 51,
+      "frequency": "433920000",
+      "device": "51",
       "topic_parent": "rtl_433",
       "discovery_prefix_mqtt": "homeassistant",
       "trigger_type": "action",
