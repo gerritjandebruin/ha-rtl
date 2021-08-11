@@ -15,10 +15,8 @@ DEVICE_NAME=$(bashio::config 'device_name')
 ID=$(bashio::config 'id')
 MODEL=$(bashio::config 'model')
 
-TOPIC="${MQTT_PREFIX}/${ID}/config"
-MESSAGE="{\"automation_type\":\"trigger\",\"topic\":\"rtl_433/time\",\"type\":\"${TYPE}\",\"subtype\":\"${SUBTYPE}\",\"device\":{\"manufacturer\":\"${MANUFACTURER}\",\"name\":\"${DEVICE_NAME}\",\"identifiers\":\"${ID}\",\"model\":\"${MODEL}\"}}"
-mosquitto_pub -h $MQTT_HOST -u $MQTT_USER -P $MQTT_PASSWORD -t $TOPIC -m $MESSAGE
+TOPIC_DISCOVERY="${MQTT_PREFIX}/${ID}/config"
+MESSAGE_DISCOVERY="{\"automation_type\":\"trigger\",\"topic\":\"${TOPIC}/time\",\"type\":\"${TYPE}\",\"subtype\":\"${SUBTYPE}\",\"device\":{\"manufacturer\":\"${MANUFACTURER}\",\"name\":\"${DEVICE_NAME}\",\"identifiers\":\"${ID}\",\"model\":\"${MODEL}\"}}"
+mosquitto_pub -h $MQTT_HOST -u $MQTT_USER -P $MQTT_PASSWORD -t $TOPIC_DISCOVERY -m $MESSAGE_DISCOVERY
 
-# echo "TEST2"
-
-# /usr/local/bin/rtl_433 -f $FREQUENCY -R $DEVICE -F "mqtt://${MQTT_HOST},user=${MQTT_USER},pass=${MQTT_PASSWORD},devices=${TOPIC}" -F kv -M level
+/usr/local/bin/rtl_433 -f $FREQUENCY -R $DEVICE -F "mqtt://${MQTT_HOST},user=${MQTT_USER},pass=${MQTT_PASSWORD},devices=${TOPIC}" -F kv -M level
