@@ -7,7 +7,8 @@ RUN apk add --no-cache --virtual .buildDeps \
     libusb-dev \
     librtlsdr-dev \
     cmake \
-    git
+    git \
+    mosquitto-clients
 
 WORKDIR /build
 
@@ -30,11 +31,11 @@ ARG rtl433GitRevision=master
 LABEL maintainer="georgedot@gmail.com" \
     vcs-ref="${rtl433GitRevision}"
 
-RUN apk add --no-cache libusb librtlsdr tzdata
+RUN apk add --no-cache libusb librtlsdr tzdata mosquitto-clients
 WORKDIR /root
 COPY --from=builder /build/root/ /
 
 COPY run.sh /
 RUN chmod a+x /run.sh
 
-CMD ["sh", "/run.sh"]
+CMD ["/run.sh"]
