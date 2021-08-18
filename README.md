@@ -10,10 +10,8 @@ If anything does not work, or you have trouble using your own RF device, please 
 ## Usage
 
 1) Install the addon.
-
 2) Connect to a USB RTL-SDR Dongle supported by https://github.com/merbanan/rtl_433.
-
-2) Use addon configuration to configure:
+3) Use addon configuration to configure:
 - device (or protocol, see https://github.com/merbanan/rtl_433 for more details inc protocol IDs, default 51)
 - frequency
 - manufacturer
