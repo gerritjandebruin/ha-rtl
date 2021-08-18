@@ -1,24 +1,27 @@
-# RTL433 to MQTT Bridge hass.io addon
-A hass.io addon for a software defined radio tuned to listen for 433MHz RF transmissions and republish the data via MQTT
+# RTL433 to MQTT Bridge Home Assistant addon
+A Home Assistant addon for a software defined radio tuned to listen for RF transmissions and convert them into [device triggers](https://www.home-assistant.io/integrations/device_trigger.mqtt/).
+This hass.io addon is based on https://hub.docker.com/r/hertzg/rtl_433, which is based on the well-known rtl_433 library (https://github.com/merbanan/rtl_433).
 
-This hass.io addon is based on https://github.com/james-fry/hassio-addons/tree/master/rtl4332mqtt, which is in turn based on Chris Kacerguis' project here: https://github.com/chriskacerguis/honeywell2mqtt,
-which is in turn based on Marco Verleun's rtl2mqtt image here: https://github.com/roflmao/rtl2mqtt
-
-Modified by Gerrit-Jan de Bruin to work specifically for the KAKU ACDB-7000A (https://klikaanklikuit.nl/product/draadloze-drukknop/).
+With default configuration, it is designed to work specifically for the KAKU ACDB-7000A (https://klikaanklikuit.nl/product/draadloze-drukknop/).
+Any RF transmission based trigger should work as well with the correct configuarion.
+Setup is done automatically via [MQTT Discovery](https://www.home-assistant.io/docs/mqtt/discovery/).
+If anything does not work, or you have trouble using your own RF device, please raise an [issue](https://github.com/gerritjandebruin/doorbell/issues).
 
 ## Usage
 
-1) Install the addon: `git clone https://github.com/gerritjandebruin/home-assistant-kaku-doorbell.git /addons` or by Supervisor -> Add-on Store -> Options -> Repositories -> Add https://github.com/gerritjandebruin/home-assistant-kaku-doorbell.git.
+1) Install the addon.
+
+2) Connect to a USB RTL-SDR Dongle supported by https://github.com/merbanan/rtl_433.
 
 2) Use addon configuration to configure:
-- mqtt_host (default localhost)
-- mqtt_user
-- mqtt_password
-- mqtt_topic (default homeassistant/sensor/doorbell)
-- protocol (see https://github.com/merbanan/rtl_433 for more details inc protocol IDs, default 96)
-- deviceid (Will only respond to this specific device id. Obtain this id by running the add-on, activate your device and look to the add-on logs.)
+- device (or protocol, see https://github.com/merbanan/rtl_433 for more details inc protocol IDs, default 51)
+- frequency
+- manufacturer
+- device_name
+- model
+All other configurations can be left unchanged.
 
-3) This add-on uses MQTT auto-discovery, to set up a device trigger (https://www.home-assistant.io/integrations/device_trigger.mqtt/)
+3) Start the addon.
 
 ## Hardware
 
@@ -27,8 +30,7 @@ This has been tested and used with the following hardware:
 - cheap rtl receiver ([aliexpress.com](https://aliexpress.com/item/32476877972.html))
 - HASS.IO on old laptop, see https://github.com/gerritjandebruin/home-assistant
 
-Total costs: +- €35, including chime and doorbell.
-Beat that Ring! (And this is way more privacy friendly.)
+Total costs: +- €35, including chime and doorbell that work also when HA is down.
 
 ## Automations
 To use this device in automations, please make use of the visual editor and choose under trigger for "Device".
