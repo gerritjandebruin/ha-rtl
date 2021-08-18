@@ -1,6 +1,6 @@
 {
     "name": "HA-RTL",
-    "version": "1.0.75",
+    "version": "1.0.76",
     "slug": "HA-RTL",
     "description": "Use a RTL-SDR device to capture the KlikAanKlikUit doorbell. Tested on the acdb-6600ac set. This add-on needs the protection mode to be off for USB access to the RTL-SDR device.",
     "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
@@ -9,6 +9,7 @@
     "startup": "application",
     "stage": "experimental",
     "boot": "auto",
+    "image": "gerritjandebruin/ha-rtl",
     "services": [
       "mqtt:need"
     ],
