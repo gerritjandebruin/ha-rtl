@@ -1,4 +1,4 @@
-# RTL433 to MQTT Bridge Home Assistant addon
+# RTL433 to Home Assistant
 A Home Assistant addon for a software defined radio tuned to listen for RF transmissions and convert them into [device triggers](https://www.home-assistant.io/integrations/device_trigger.mqtt/).
 This hass.io addon is based on https://hub.docker.com/r/hertzg/rtl_433, which is based on the well-known rtl_433 library (https://github.com/merbanan/rtl_433).
 
