@@ -2,7 +2,8 @@
     "name": "HA-RTL",
     "version": "1.1.0",
     "slug": "HA-RTL",
-    "description": "Use a RTL-SDR device to capture any RF signal and send it to Home Assistant.",
+    "description": 
+    "Use a RTL-SDR device to capture any RF signal and send it to Home Assistant. Before starting, complete configuration. After starting, a device_trigger is created which will update when the right RF pulse is received.",
     "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
     "url": "http://github.com/gerritjandebruin/home-assistant-rtl-sdr",
     "usb": true,
