@@ -40,7 +40,7 @@ This has been tested and used with the following hardware:
 
 Total costs: +- €35, including chime and doorbell that work also when HA is down.
 
-![My hardware used for this addon.](./hardware.png)
+![My hardware used for this addon.](https://github.com/gerritjandebruin/ha-rtl/raw/master/ha-rtl/hardware.png)
 
 ## Automations
 To use this device in automations, please make use of the visual editor and choose under trigger for "Device".
