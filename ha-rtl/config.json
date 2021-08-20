@@ -1,13 +1,13 @@
 {
     "name": "HA-RTL",
-    "version": "1.0.77",
+    "version": "1.1.0",
     "slug": "HA-RTL",
-    "description": "Use a RTL-SDR device to capture the KlikAanKlikUit doorbell. Tested on the acdb-6600ac set. This add-on needs the protection mode to be off for USB access to the RTL-SDR device.",
+    "description": "Use a RTL-SDR device to capture any RF signal and send it to Home Assistant.",
     "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
     "url": "http://github.com/gerritjandebruin/home-assistant-rtl-sdr",
     "usb": true,
     "startup": "application",
-    "stage": "experimental",
+    "stage": "stable",
     "boot": "auto",
     "image": "gerritjandebruin/ha-rtl-{arch}",
     "services": [
@@ -15,14 +15,13 @@
     ],
     "options": {
       "frequency": "433920000",
-      "device": "51",
       "discovery_prefix_mqtt": "homeassistant/device_automation",
       "trigger_type": "action",
       "trigger_subtype": "button_1",
-      "manufacturer": "KlikAanKlikUit",
-      "device_name": "Doorbell",
-      "id": "doorbell",
-      "model": "ACDB-6600AC"
+      "manufacturer": "",
+      "device_name": "rtl433",
+      "id": "rtl433",
+      "model": "rtl433"
     },
     "schema": {
       "frequency": "int(1,)",
