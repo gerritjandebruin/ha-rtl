@@ -9,7 +9,7 @@
     "startup": "application",
     "stage": "experimental",
     "boot": "auto",
-    "image": "gerritjandebruin/ha-rtl",
+    "image": "gerritjandebruin/ha-rtl-{arch}",
     "services": [
       "mqtt:need"
     ],

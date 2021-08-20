@@ -1,4 +1,5 @@
-FROM homeassistant/amd64-base as builder
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
@@ -25,7 +26,7 @@ WORKDIR /build/rtl_433/build
 RUN make DESTDIR=/build/root/ install
 RUN ls -lah /build/root
 
-FROM homeassistant/amd64-base
+FROM $BUILD_FROM
 
 ARG rtl433GitRevision=master
 LABEL maintainer="georgedot@gmail.com" \
