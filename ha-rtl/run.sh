@@ -23,14 +23,12 @@ IDENTIFIERS=$(bashio::config 'identifiers')
 MESSAGE_DISCOVERY="{\"automation_type\":\"trigger\",\"topic\":\"${MQTT_PREFIX}/rtl433/time\",\"type\":\"${TYPE}\",\"subtype\":\"${SUBTYPE}\",\"device\":{\"manufacturer\":\"${MANUFACTURER}\",\"name\":\"${DEVICE_NAME}\",\"identifiers\":\"${IDENTIFIERS}\",\"model\":\"${MODEL}\"}}"
 mosquitto_pub -h $MQTT_HOST -u $MQTT_USER -P $MQTT_PASSWORD -t $"${MQTT_PREFIX}/rtl433/config" -m $MESSAGE_DISCOVERY
 
-echo "TEST"
-echo $PROTOCOL
+echo "PROTOCOL ${PROTOCOL}"
 
-if $PROTOCOL == ""
+if [ -z $PROTOCOL ]
 then
-    echo "Nothing"
+    echo "No protocol"
+    /usr/local/bin/rtl_433 -f $FREQUENCY -F "mqtt://${MQTT_HOST},user=${MQTT_USER},pass=${MQTT_PASSWORD},devices=${TOPIC_STATE}" -F kv -M level
 else
-    echo "Error"
+    /usr/local/bin/rtl_433 -f $FREQUENCY -R $PROTOCOL -F "mqtt://${MQTT_HOST},user=${MQTT_USER},pass=${MQTT_PASSWORD},devices=${TOPIC_STATE}" -F kv -M level
 fi
-
-# /usr/local/bin/rtl_433 -f $FREQUENCY -R $PROTOCOL -F "mqtt://${MQTT_HOST},user=${MQTT_USER},pass=${MQTT_PASSWORD},devices=${TOPIC_STATE}" -F kv -M level
