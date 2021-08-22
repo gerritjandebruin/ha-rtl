@@ -28,7 +28,7 @@ echo "PROTOCOL ${PROTOCOL}"
 if [ -z $PROTOCOL ]
 then
     echo "No protocol"
-    /usr/local/bin/rtl_433 -f $FREQUENCY -F "mqtt://${MQTT_HOST},user=${MQTT_USER},pass=${MQTT_PASSWORD},devices=${TOPIC_STATE}" -F kv -M level
+    /usr/local/bin/rtl_433 -f $FREQUENCY -F "mqtt://${MQTT_HOST},user=${MQTT_USER},pass=${MQTT_PASSWORD},devices=${MQTT_PREFIX}/rtl433" -F kv -M level
 else
     /usr/local/bin/rtl_433 -f $FREQUENCY -R $PROTOCOL -F "mqtt://${MQTT_HOST},user=${MQTT_USER},pass=${MQTT_PASSWORD},devices=${TOPIC_STATE}" -F kv -M level
 fi
