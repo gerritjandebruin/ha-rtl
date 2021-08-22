@@ -10,7 +10,6 @@
     "startup": "application",
     "stage": "stable",
     "boot": "auto",
-    "image": "gerritjandebruin/ha-rtl-{arch}",
     "services": [
       "mqtt:need"
     ],
