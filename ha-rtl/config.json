@@ -9,6 +9,7 @@
   "startup": "application",
   "stage": "stable",
   "boot": "auto",
+  "image": "gerritjandebruin/ha-rtl-{arch}",
   "services": ["mqtt:need"],
   "options": {
     "frequencies": [433920000],
