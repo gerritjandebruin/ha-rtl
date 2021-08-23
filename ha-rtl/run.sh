@@ -1,22 +1,43 @@
 #!/usr/bin/with-contenv bashio
 
-FREQUENCY=$(bashio::config 'frequency')
-DEVICE=$(bashio::config 'device')
+# MQTT
+prefix=$(bashio::config 'discovery_prefix_mqtt')
+host=$(bashio::services mqtt "host")
+user=$(bashio::services mqtt "username")
+password=$(bashio::services mqtt "password")
 
-MQTT_PREFIX=$(bashio::config 'discovery_prefix_mqtt')
-MQTT_HOST=$(bashio::services mqtt "host")
-MQTT_USER=$(bashio::services mqtt "username")
-MQTT_PASSWORD=$(bashio::services mqtt "password")
-TYPE=$(bashio::config 'trigger_type')
-SUBTYPE=$(bashio::config 'trigger_subtype')
-MANUFACTURER=$(bashio::config 'manufacturer')
-DEVICE_NAME=$(bashio::config 'device_name')
-ID=$(bashio::config 'id')
-MODEL=$(bashio::config 'model')
+args=(
+    -H $(bashio::config 'hop_interval')
+    -F "mqtt://${host},user=${user},pass=${password},devices=${prefix}/rtl433"
+    -F "kv"
+    -M "level" 
+    -M "protocol"
+)
 
-TOPIC_DISCOVERY="${MQTT_PREFIX}/${ID}/config"
-TOPIC_STATE="${MQTT_PREFIX}/${ID}/state"
-MESSAGE_DISCOVERY="{\"automation_type\":\"trigger\",\"topic\":\"${TOPIC_STATE}/time\",\"type\":\"${TYPE}\",\"subtype\":\"${SUBTYPE}\",\"device\":{\"manufacturer\":\"${MANUFACTURER}\",\"name\":\"${DEVICE_NAME}\",\"identifiers\":\"${ID}\",\"model\":\"${MODEL}\"}}"
-mosquitto_pub -h $MQTT_HOST -u $MQTT_USER -P $MQTT_PASSWORD -t $TOPIC_DISCOVERY -m $MESSAGE_DISCOVERY
+for frequency in $(bashio::config 'frequencies'); do
+    args+=(-f $frequency)
+done
 
-/usr/local/bin/rtl_433 -f $FREQUENCY -R $DEVICE -F "mqtt://${MQTT_HOST},user=${MQTT_USER},pass=${MQTT_PASSWORD},devices=${TOPIC_STATE}" -F kv -M level
+for device in $(bashio::config 'devices|keys'); do
+    protocol=$(bashio::config "devices[${device}].protocol")
+    automation_type=$(bashio::config "devices[${device}].automation_type")
+    trigger_type=$(bashio::config "devices[${device}].trigger_type")
+    trigger_subtype=$(bashio::config "devices[${device}].trigger_subtype")
+    manufacturer=$(bashio::config "devices[${device}].manufacturer")
+    name=$(bashio::config "devices[${device}].name")
+    id=$(bashio::config "devices[${device}].id")
+    model=$(bashio::config "devices[${device}].model")
+    if [ "$automation_type" == "device_automation" ]; then
+        automation_type="trigger"
+        topic="${prefix}/rtl433/protocol"
+    else
+        bashio::exit.nok "Invalid automation_type: ${automation_type}"
+    fi
+
+    args+=(-R $protocol)
+
+    mosquitto_pub -h ${host} -u ${user} -P ${password} -t "${prefix}/rtl433/config" \
+        -m "{\"automation_type\":\"${automation_type}\",\"payload\":${protocol},\"topic\":\"${topic}\",\"type\":\"${trigger_type}\",\"subtype\":\"${trigger_subtype}\",\"device\":{\"manufacturer\":\"${manufacturer}\",\"name\":\"${name}\",\"identifiers\":\"${id}\",\"model\":\"${model}\"}}"
+done
+
+/usr/local/bin/rtl_433 "${args[@]}"
