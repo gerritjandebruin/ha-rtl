@@ -1,38 +1,47 @@
 {
-    "name": "HA-RTL",
-    "version": "1.1.2dev4",
-    "slug": "HA-RTL",
-    "description": 
-    "Use a RTL-SDR device to capture any RF signal and send it to Home Assistant. Before starting, complete configuration. After starting, a device_trigger is created which will update when the right RF pulse is received.",
-    "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
-    "url": "http://github.com/gerritjandebruin/home-assistant-rtl-sdr",
-    "usb": true,
-    "startup": "application",
-    "stage": "stable",
-    "boot": "auto",
-    "services": [
-      "mqtt:need"
+  "name": "ha-rtl",
+  "version": "2.0.0",
+  "slug": "ha-rtl",
+  "description": "Use a RTL-SDR device to capture any RF signal and send it to Home Assistant. Before starting, complete configuration. After starting, a device_trigger is created which will update when the right RF pulse is received.",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "url": "http://github.com/gerritjandebruin/home-assistant-rtl-sdr",
+  "usb": true,
+  "startup": "application",
+  "stage": "stable",
+  "boot": "auto",
+  "services": ["mqtt:need"],
+  "options": {
+    "frequencies": [433920000],
+    "hop_interval": 10,
+    "devices": [
+      {
+        "protocol": 51, 
+        "automation_type": "device_automation", 
+        "trigger_type": "action", 
+        "trigger_subtype": "button_1", 
+        "manufacturer": "", 
+        "name": "device1", 
+        "id": "device1", 
+        "model": "model1"}
     ],
-    "options": {
-      "frequency": "433920000",
-      "discovery_prefix_mqtt": "homeassistant/device_automation",
-      "trigger_type": "action",
-      "trigger_subtype": "button_1",
-      "manufacturer": "",
-      "device_name": "rtl433",
-      "id": "rtl433",
-      "model": "rtl433"
-    },
-    "schema": {
-      "frequency": "int(1,)",
-      "protocol": "int?",
-      "discovery_prefix_mqtt": "str",
-      "trigger_type": "str",
-      "trigger_subtype": "str",
-      "manufacturer": "str",
-      "device_name": "str",
-      "id": "str",
-      "model": "str"
-    },
-    "panel_icon": "mdi:radio-tower"
-  }
+    "discovery_prefix_mqtt": "homeassistant"
+  },
+  "schema": {
+    "frequencies": ["int(1,)"],
+    "hop_interval": "int(1,)",
+    "devices": [
+      {
+        "protocol": "int(1,191)", 
+        "automation_type": "list(device_automation|binary_sensor|sensor)", 
+        "trigger_type": "str?", 
+        "trigger_subtype": "str?", 
+        "manufacturer": "str?", 
+        "name": "str", 
+        "id": "str",
+        "model": "str?"
+      }
+    ],
+    "discovery_prefix_mqtt": "str"
+  },
+  "panel_icon": "mdi:radio-tower"
+}
