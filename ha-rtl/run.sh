@@ -8,7 +8,7 @@ password=$(bashio::services mqtt "password")
 
 args=(
     -H $(bashio::config 'hop_interval')
-    -F "mqtt://${host},user=${user},pass=${password},devices=${prefix}/rtl433"
+    -F "mqtt://${host},user=${user},pass=${password},devices=${prefix}/rtl433/[id]"
     -F "kv"
     -M "level" 
     -M "protocol"
