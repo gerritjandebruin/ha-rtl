@@ -21,7 +21,7 @@ for device in $(bashio::config 'devices|keys'); do
         break
     fi
 done
-if $house_code; then
+if [[ ! $house_code ]]; then
     args+=(-F "mqtt://${host},user=${user},pass=${password},devices=${prefix}/rtl433/[protocol]")
 fi
 
