@@ -8,11 +8,21 @@ password=$(bashio::services mqtt "password")
 
 args=(
     -H $(bashio::config 'hop_interval')
-    -F "mqtt://${host},user=${user},pass=${password},devices=${prefix}/rtl433/[id]"
     -F "kv"
     -M "level" 
     -M "protocol"
 )
+
+house_code=false
+for device in $(bashio::config 'devices|keys'); do
+    if $(bashio::config.exists "devices[${device}].house_code"); then
+        args+=(-F "mqtt://${host},user=${user},pass=${password},devices=${prefix}/rtl433/[id]")
+        house_code=true
+        break
+    fi
+if $house_code; then
+    args+=(-F "mqtt://${host},user=${user},pass=${password},devices=${prefix}/rtl433/[protocol]")
+fi
 
 for frequency in $(bashio::config 'frequencies'); do
     args+=(-f $frequency)
@@ -27,9 +37,14 @@ for device in $(bashio::config 'devices|keys'); do
     name=$(bashio::config "devices[${device}].name")
     id=$(bashio::config "devices[${device}].id")
     model=$(bashio::config "devices[${device}].model")
+    
     if [ "$automation_type" == "device_automation" ]; then
         automation_type="trigger"
-        topic="${prefix}/rtl433/protocol"
+        if $(bashio::config.exists "devices[${device}].house_code"); then
+            house_code=$(bashio::config "devices[${device}].house_code")
+            topic="${prefix}/rtl433/${house_code}"
+        else
+            topic="${prefix}/rtl433/${protocol}"
     else
         bashio::exit.nok "Invalid automation_type: ${automation_type}"
     fi
