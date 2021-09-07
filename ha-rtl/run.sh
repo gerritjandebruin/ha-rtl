@@ -45,6 +45,7 @@ for device in $(bashio::config 'devices|keys'); do
             topic="${prefix}/rtl433/${house_code}"
         else
             topic="${prefix}/rtl433/${protocol}"
+        fi
     else
         bashio::exit.nok "Invalid automation_type: ${automation_type}"
     fi
