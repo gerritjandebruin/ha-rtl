@@ -37,14 +37,13 @@ for device in $(bashio::config 'devices|keys'); do
             topic="${prefix}/rtl433/action/protocol"
             payload=${protocol}
         fi
+        
+        args+=(-R $protocol)
+        mosquitto_pub -h ${host} -u ${user} -P ${password} -t "${prefix}/device_automation/rtl433/config" \
+            -m "{\"automation_type\":\"${automation_type}\",\"payload\":${payload},\"topic\":\"${topic}\",\"type\":\"${trigger_type}\",\"subtype\":\"${trigger_subtype}\",\"device\":{\"manufacturer\":\"${manufacturer}\",\"name\":\"${name}\",\"identifiers\":\"${id}\",\"model\":\"${model}\"}}"
     else
         bashio::exit.nok "Invalid automation_type: ${automation_type}"
     fi
-
-    args+=(-R $protocol)
-
-    mosquitto_pub -h ${host} -u ${user} -P ${password} -t "${prefix}/rtl433/config" \
-        -m "{\"automation_type\":\"${automation_type}\",\"payload\":${payload},\"topic\":\"${topic}\",\"type\":\"${trigger_type}\",\"subtype\":\"${trigger_subtype}\",\"device\":{\"manufacturer\":\"${manufacturer}\",\"name\":\"${name}\",\"identifiers\":\"${id}\",\"model\":\"${model}\"}}"
 done
 
 /usr/local/bin/rtl_433 "${args[@]}"
