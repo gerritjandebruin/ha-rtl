@@ -22,16 +22,24 @@ If anything does not work, or you have trouble using your own RF device, please 
 
 2) Connect to a USB RTL-SDR Dongle supported by [rtl_433](https://github.com/merbanan/rtl_433). For example [this](https://nl.aliexpress.com/item/32476877972.html?spm=a2g0s.9042311.0.0.70924c4d9vmXSr) item.
 
-3) Use addon configuration to configure:
-- device (or protocol, look [here](https://github.com/merbanan/rtl_433))
+3) Use addon configuration to configure the following options (all are optional) for each device:
+- protocol (=device, look [here](https://github.com/merbanan/rtl_433))
+- automation_type (only device_automation supported at this time)
+- trigger_type
+- trigger_subtype
+- manufacturer
 - frequency
 - manufacturer
-- device_name
+- name
+- id (=house code, see below)
 - model
 
-All other configurations can be left unchanged.
-
 4) Start the addon.
+
+## ID/ house code
+The addon will log any pulse received.
+When home assistant should only respond to your specific device, set the id option for the device.
+This id can be found by looking to the logs, where it is reported as `house code'.
 
 ## Hardware
 
@@ -55,7 +63,6 @@ Open an issue if needed.
 
 ## To do
 - support different device_classes
-- add support for more than one device at the same time
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
