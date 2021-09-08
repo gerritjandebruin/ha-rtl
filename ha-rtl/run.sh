@@ -34,7 +34,7 @@ for device in $(bashio::config 'devices|keys'); do
             topic="${prefix}/rtl433/action/id"
             payload=$(bashio::config "devices[${device}].house_code")
         else
-            topic="${prefix}/rtl433/${protocol}"
+            topic="${prefix}/rtl433/action/protocol"
             payload=${protocol}
         fi
     else
