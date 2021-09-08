@@ -28,7 +28,7 @@ for device in $(bashio::config 'devices|keys'); do
     id=$(bashio::config "devices[${device}].id")
     model=$(bashio::config "devices[${device}].model")
     
-    if bashio::var.equals "$automation_type" "device_automation"; then
+    if $(bashio::var.equals "$automation_type" "device_automation"); then
         automation_type="trigger"
         if $(bashio::config.exists "devices[${device}].house_code"); then
             topic="${prefix}/rtl433/action/id"
