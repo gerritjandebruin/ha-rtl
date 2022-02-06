@@ -13,7 +13,7 @@ Compared to https://github.com/pbkhrv/rtl_433-hass-addons, this add-on has a few
 - The addon is a [pre-built container](https://hub.docker.com/u/gerritjandebruin), allowing much faster installation.
 - This addon provides currently only device_triggers, which are well suited for buttons, remote controls, etc.
 
-If anything does not work, or you have trouble using your own RF device, please raise an [issue](https://github.com/gerritjandebruin/doorbell/issues).
+If anything does not work, or you have trouble using your own RF device, please raise an [issue](https://github.com/gerritjandebruin/ha-rtl/issues/new).
 
 ## Usage
 
@@ -22,16 +22,35 @@ If anything does not work, or you have trouble using your own RF device, please 
 
 2) Connect to a USB RTL-SDR Dongle supported by [rtl_433](https://github.com/merbanan/rtl_433). For example [this](https://nl.aliexpress.com/item/32476877972.html?spm=a2g0s.9042311.0.0.70924c4d9vmXSr) item.
 
-3) Use addon configuration to configure:
-- device (or protocol, look [here](https://github.com/merbanan/rtl_433))
-- frequency
-- manufacturer
-- device_name
-- model
-
-All other configurations can be left unchanged.
+3) Use addon configuration to configure the protocol, look [here](https://github.com/merbanan/rtl_433). All other configurations can be left unchanged at this time.
 
 4) Start the addon.
+
+5) Trigger your device.
+
+6) In the log of the addon, something like this should present:
+```
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+time      : 2022-02-06 13:33:51
+Protocol  : 51
+model     : Proove-Security
+House Code: xxxxxxxx
+Channel   : 3
+State     : ON
+Unit      : 3
+Group     : 1
+Modulation: ASK
+Freq      : 434.0 MHz
+RSSI      : -0.1 dB
+SNR       : 10.0 dB
+Noise     : -10.1 dB
+```
+
+7) Alter your configuration. Now add the id for the device, which should be equal to the House Code of the previous step.
+
+8) Restart the addon.
+
+9) Everything should work as expected. Repeat the procedure to add additional devices.
 
 ## Hardware
 
@@ -47,15 +66,31 @@ Total costs: +- €35, including chime and doorbell that work also when HA is do
 ## Automations
 To use this device in automations, please make use of the visual editor and choose under trigger for "Device".
 You should see your device as soon as the add-on starts.
+The trigger will be available as soon as you trigger your device after the addon is started.
 
-In my case, I create a notification for every device that the doorbell rang, see https://github.com/gerritjandebruin/home-assistant/blob/a1145e7b9ec0b38e20aaa4893a0365a1e106976e/automations.yaml#L248.
+## Example
+Options for HA-RTL:
+```yaml
+frequencies:
+  - 433920000
+hop_interval: 10
+devices:
+  - protocol: 51
+    automation_type: device_automation
+    trigger_type: action
+    trigger_subtype: button_1
+    manufacturer: Gamma
+    name: KiKa Doorbell
+    id: xxxxxxxx
+    model: 7000ac
+discovery_prefix_mqtt: homeassistant
+```
+
+Automation trigger:
+![](trigger.png)
 
 ## Contact
-Open an issue if needed.
-
-## To do
-- support different device_classes
-- add support for more than one device at the same time
+Open an [issue](https://github.com/gerritjandebruin/ha-rtl/issues/new) if needed.
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
