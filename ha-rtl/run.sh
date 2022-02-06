@@ -20,29 +20,32 @@ done
 
 for device in $(bashio::config 'devices|keys'); do
     protocol=$(bashio::config "devices[${device}].protocol")
-    automation_type=$(bashio::config "devices[${device}].automation_type")
-    trigger_type=$(bashio::config "devices[${device}].trigger_type")
-    trigger_subtype=$(bashio::config "devices[${device}].trigger_subtype")
-    manufacturer=$(bashio::config "devices[${device}].manufacturer")
+    atype=$(bashio::config "devices[${device}].automation_type")
+    type=$(bashio::config "devices[${device}].trigger_type")
+    stype=$(bashio::config "devices[${device}].trigger_subtype")
+    mf=$(bashio::config "devices[${device}].manufacturer")
     name=$(bashio::config "devices[${device}].name")
-    id=$(bashio::config "devices[${device}].id")
-    model=$(bashio::config "devices[${device}].model")
+    mdl=$(bashio::config "devices[${device}].model")
     
-    if $(bashio::var.equals "$automation_type" "device_automation"); then
-        automation_type="trigger"
-        if $(bashio::config.exists "devices[${device}].house_code"); then
-            topic="${prefix}/rtl433/action/id"
-            payload=$(bashio::config "devices[${device}].house_code")
+    if $(bashio::var.equals "$atype" "device_automation"); then
+        atype="trigger"
+        if $(bashio::config.exists "devices[${device}].id"); then
+            t="${prefix}/rtl433/action/id"
+            pl=$(bashio::config "devices[${device}].id")
+            id=$pl
         else
-            topic="${prefix}/rtl433/action/protocol"
-            payload=${protocol}
+            t="${prefix}/rtl433/action/protocol"
+            pl=$protocol
+            id="0"
         fi
-        
+
+        ids="[\"rtl433\",\"${id}\",\"${protocol}\"]"
+        bashio::log.blue "Used ids: ${ids}"
+
         args+=(-R $protocol)
-        mosquitto_pub -h ${host} -u ${user} -P ${password} -t "${prefix}/device_automation/rtl433/config" \
-            -m "{\"automation_type\":\"${automation_type}\",\"payload\":${payload},\"topic\":\"${topic}\",\"type\":\"${trigger_type}\",\"subtype\":\"${trigger_subtype}\",\"device\":{\"manufacturer\":\"${manufacturer}\",\"name\":\"${name}\",\"identifiers\":\"${id}\",\"model\":\"${model}\"}}"
+        mosquitto_pub -h ${host} -u ${user} -P ${password} -t "${prefix}/device_automation/rtl433/1/config" -m "{\"atype\":\"${atype}\",\"pl\":${pl},\"t\":\"${t}\",\"type\":\"${type}\",\"stype\":\"${stype}\",\"dev\":{\"mf\":\"${mf}\",\"name\":\"${name}\",\"ids\":${ids},\"mdl\":\"${mdl}\"}}"
     else
-        bashio::exit.nok "Invalid automation_type: ${automation_type}"
+        bashio::exit.nok "Invalid automation_type: ${atype}"
     fi
 done
 

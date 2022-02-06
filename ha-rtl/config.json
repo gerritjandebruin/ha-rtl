@@ -1,6 +1,6 @@
 {
   "name": "ha-rtl",
-  "version": "2.1.0",
+  "version": "3.0.0-beta.4",
   "slug": "ha-rtl",
   "description": "Use a RTL-SDR device to capture any RF signal and send it to Home Assistant. Before starting, complete configuration. After starting, a device_trigger is created which will update when the right RF pulse is received.",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
@@ -9,7 +9,7 @@
   "startup": "application",
   "stage": "stable",
   "boot": "auto",
-  "image": "gerritjandebruin/ha-rtl-{arch}",
+  "#image": "gerritjandebruin/ha-rtl-{arch}",
   "services": ["mqtt:need"],
   "options": {
     "frequencies": [433920000],
@@ -22,7 +22,6 @@
         "trigger_subtype": "button_1", 
         "manufacturer": "", 
         "name": "device1", 
-        "id": "device1", 
         "model": "model1"
       }
     ],
@@ -39,9 +38,8 @@
         "trigger_subtype": "str?", 
         "manufacturer": "str?", 
         "name": "str", 
-        "id": "str",
-        "model": "str?",
-        "house_code": "int?"
+        "id": "int?",
+        "model": "str?"
       }
     ],
     "discovery_prefix_mqtt": "str"
