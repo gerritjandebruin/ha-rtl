@@ -43,7 +43,7 @@ for device in $(bashio::config 'devices|keys'); do
         bashio::log.blue "Used ids: ${ids}"
 
         args+=(-R $protocol)
-        mosquitto_pub -h ${host} -u ${user} -P ${password} -t "${prefix}/device_automation/rtl433/1/config" -m "{\"atype\":\"${atype}\",\"pl\":${pl},\"t\":\"${t}\",\"type\":\"${type}\",\"stype\":\"${stype}\",\"dev\":{\"mf\":\"${mf}\",\"name\":\"${name}\",\"ids\":${ids},\"mdl\":\"${mdl}\"}}"
+        mosquitto_pub -h ${host} -u ${user} -P ${password} -t "${prefix}/device_automation/rtl433/${id}/config" -m "{\"atype\":\"${atype}\",\"pl\":${pl},\"t\":\"${t}\",\"type\":\"${type}\",\"stype\":\"${stype}\",\"dev\":{\"mf\":\"${mf}\",\"name\":\"${name}\",\"ids\":${ids},\"mdl\":\"${mdl}\"}}"
     else
         bashio::exit.nok "Invalid automation_type: ${atype}"
     fi
