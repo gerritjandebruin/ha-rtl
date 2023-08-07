@@ -1,6 +1,32 @@
 # RTL433 to Home Assistant
 ![Supports aarch64 Architecture][aarch64-shield] ![Supports amd64 Architecture][amd64-shield] ![Supports armhf Architecture][armhf-shield] ![Supports armv7 Architecture][armv7-shield] ![Supports i386 Architecture][i386-shield]![GitHub Repo stars](https://img.shields.io/github/stars/gerritjandebruin/ha-rtl?style=social)![GitHub issues](https://img.shields.io/github/issues-raw/gerritjandebruin/ha-rtl)
 
+***********************
+MARKED AS ARCHIVED
+SAME FUNCTIONALITY IS COVERED BY https://github.com/pbkhrv/rtl_433-hass-addons/
+
+If you want to integrate the KaKu ACDB-7000A, use the folloing config file:
+```
+# This is an empty template for configuring rtl_433. mqtt information will be
+# automatically added. Create multiple files ending in '.conf.template' to
+# manage multiple rtl_433 radios, being sure to set the 'device' setting.
+# https://github.com/merbanan/rtl_433/blob/master/conf/rtl_433.example.conf
+
+output mqtt://${host}:${port},user=${username},pass=${password},retain=${retain}
+
+protocol    51
+frequency   433.92M
+convert     si
+report_meta newmodel
+report_meta time:iso:tz:local
+
+# Uncomment the following line to also enable the default "table" output to the
+# addon logs.
+output kv
+output json
+```
+***********************
+
 A Home Assistant addon for a software defined radio tuned to listen for RF transmissions and convert them into [device triggers](https://www.home-assistant.io/integrations/device_trigger.mqtt/).
 This device trigger can be used to trigger any automation as soon as a specific message is received.
 For example, the add-on allows to integrate the [KAKU ACDB-7000A](https://klikaanklikuit.nl/product/draadloze-drukknop/) to be used in Home Assistant.
